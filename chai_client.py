@@ -72,7 +72,7 @@ class ChaiAPIClient:
             total=Config.MAX_RETRIES,
             backoff_factor=1,
             status_forcelist=[429, 500, 502, 503, 504],
-            method_whitelist=["POST"]
+            allowed_methods=["POST"]
         )
         
         adapter = HTTPAdapter(max_retries=retry_strategy)
@@ -100,9 +100,16 @@ class ChaiAPIClient:
             )
             
             if response.status_code == 200:
-                response_text = response.text.strip()
-                logger.info("Successfully received response from CHAI API")
-                return True, response_text, None
+                try:
+                    response_data = response.json()
+                    response_text = response_data.get("model_output", "No response")
+                    logger.info("Successfully received response from CHAI API")
+                    return True, response_text, None
+                except json.JSONDecodeError:
+                    # Fallback to raw text if JSON parsing fails
+                    response_text = response.text.strip()
+                    logger.info("Successfully received response from CHAI API (raw text)")
+                    return True, response_text, None
             else:
                 error_msg = f"API returned status {response.status_code}: {response.text}"
                 logger.error(error_msg)
