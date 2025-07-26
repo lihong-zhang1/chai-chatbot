@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAI Chatbot Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-content">
+                <div class="bot-info">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="bot-details">
+                        <h1 class="bot-name" id="bot-name">CHAI Assistant</h1>
+                        <div class="bot-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Online</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" id="clear-chat" title="Clear Chat">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="action-btn" id="settings-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Messages Container -->
+        <main class="chat-container">
+            <div class="messages-wrapper">
+                <div class="messages" id="messages">
+                    <!-- Welcome message -->
+                    <div class="message bot-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Hello! I'm your CHAI assistant. How can I help you today?</p>
+                            </div>
+                            <div class="message-time" id="welcome-time"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="input-area">
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="message-input" 
+                        placeholder="Type your message here..." 
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <button class="send-btn" id="send-btn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <div class="character-count">
+                        <span id="char-count">0</span>/2000
+                    </div>
+                    <div class="input-hint">
+                        Press Shift+Enter for new line, Enter to send
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Settings Modal -->
+        <div class="modal-overlay" id="settings-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Chat Settings</h2>
+                    <button class="close-btn" id="close-settings">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="user-name-input">Your Name</label>
+                        <input type="text" id="user-name-input" value="User" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="bot-name-input">Bot Name</label>
+                        <input type="text" id="bot-name-input" value="Assistant" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="custom-prompt">Custom Prompt (Optional)</label>
+                        <textarea 
+                            id="custom-prompt" 
+                            placeholder="Enter a custom system prompt..."
+                            rows="3"
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="reset-settings">Reset</button>
+                    <button class="btn btn-primary" id="save-settings">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading-indicator" id="loading">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
+            <div class="loading-text">Thinking...</div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>
